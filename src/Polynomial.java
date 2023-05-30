@@ -1,4 +1,4 @@
-public class Polynomial extends Function{
+public class Polynomial extends Function {
     private final double[] coefficients;
 
     public Polynomial(double... coefficients) {
@@ -6,10 +6,6 @@ public class Polynomial extends Function{
         this.coefficients = coefficients;
     }
 
-    /*public double[] getCoefficients() {
-        return coefficients;
-    }
-    */
     @Override
     public double valueAt(double x) {
         double result = 0;
@@ -19,15 +15,16 @@ public class Polynomial extends Function{
         return result;
     }
 
+    @Override
     public String toString() {
         String fx = "";
-        int polynomDegree = coefficients.length - 1;
+        int polynomialDegree = coefficients.length - 1;
         for (int i = 0; i < coefficients.length; i++) {
             double coefficient = coefficients[i];
             if (coefficient != 0) {
-                if (coefficient > 0 && i < polynomDegree) {
+                if (coefficient > 0 && i < polynomialDegree) {
                     fx += "+ ";
-                } else if (coefficient < 0 && i < polynomDegree) {
+                } else if (coefficient < 0 && i < polynomialDegree) {
                     fx += "- ";
                 } else if (coefficient != 1 && coefficient != -1) {
                     if (coefficient == (int) coefficient) {
@@ -35,10 +32,10 @@ public class Polynomial extends Function{
                     } else {
                         fx += coefficient;
                     }
-                    if (i < polynomDegree) {
+                    if (i < polynomialDegree) {
                         fx += "x";
-                        if (i != polynomDegree - 1) {
-                            fx += "^" + (polynomDegree - i);
+                        if (i != polynomialDegree - 1) {
+                            fx += "^" + (polynomialDegree - i);
                         }
                     }
                 }
@@ -46,14 +43,19 @@ public class Polynomial extends Function{
         }
         return fx;
     }
+
     @Override
     public Function derivative() {
-        int derivativeDegree = coefficients.length - 1;
-        double[] derivativeCoefficients = new double[derivativeDegree];
-        for (int i = 0; i < derivativeDegree; i++) {
-            derivativeCoefficients[i] = coefficients[i + 1] * (i + 1);
+        int polynomialDegree = coefficients.length - 1;
+        if (polynomialDegree == 0) {
+            // If the polynomial is a constant, return the derivative of a constant (0)
+            return new Constant(0);
+        } else {
+            double[] derivativeCoefficients = new double[polynomialDegree];
+            for (int i = 0; i < polynomialDegree; i++) {
+                derivativeCoefficients[i] = coefficients[i + 1] * (i + 1);
+            }
+            return new Polynomial(derivativeCoefficients);
         }
-        return new Polynomial(derivativeCoefficients);
     }
 }
-
